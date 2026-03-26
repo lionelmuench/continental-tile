@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+const servicesList = [
+  {
+    id: "tile",
+    title: "Porcelain & Ceramic Tile",
+    desc: "We specialize in the meticulous installation of porcelain, ceramic, and natural stone tiles. Engineered for longevity, our tile solutions are ideal for high-traffic commercial environments such as corporate lobbies, retail spaces, and hospitality venues, offering a seamless blend of durability and timeless design.",
+    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&h=900&q=80",
+    features: ["Large-format tiles", "Natural stone & slabs", "Custom mosaics", "Waterproofing & leveling"]
+  },
+  {
+    id: "vinyl",
+    title: "Luxury Vinyl Flooring",
+    desc: "Our premium vinyl flooring options include Luxury Vinyl Tile (LVT) and Luxury Vinyl Plank (LVP), delivering the aesthetic of natural wood or stone with unmatched resilience. Moisture-resistant and easy to maintain, it's the perfect choice for dynamic commercial spaces.",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&h=900&q=80",
+    features: ["LVT & LVP installation", "VCT (Vinyl Composition Tile)", "Acoustic underlayments", "Heat welding"]
+  },
+  {
+    id: "carpet",
+    title: "Commercial Carpet Laying",
+    desc: "From expansive broadloom to modular carpet tiles, we provide precision installations that enhance acoustics and comfort. Our carpet solutions are designed to endure intense foot traffic while maintaining their structured appearance.",
+    img: "https://abfloors.com/wp-content/uploads/2015/01/commercial-flooring-Orlando.jpg",
+    features: ["Modular carpet tiles", "Broadloom carpets", "Custom borders & inlays", "Moisture barrier adhesives"]
+  }
+];
+---
+
+<BaseLayout title="Our Services - Tile, Vinyl, and Carpet">
+  {/* Page Header */}
+  <section class="relative py-32 bg-brand-bg flex items-center justify-center border-b border-gray-200">
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
+      <h1 class="font-serif text-5xl md:text-6xl font-bold text-brand-blue mb-6">Our Services</h1>
+      <p class="font-sans text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+        Focusing in new commercial construction and renovations, Continental Tile provides exceptional services in all types of flooring.
+      </p>
+    </div>
+  </section>
+
+  {/* Services List */}
+  <div class="bg-white">
+    {servicesList.map((service, index) => (
+      <section id={service.id} class={`py-24 border-b border-gray-100 ${index % 2 === 1 ? 'bg-brand-bg/50' : ''}`}>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-16`}>
+            {/* Image */}
+            <div class="w-full lg:w-1/2">
+              <div class="aspect-w-4 aspect-h-3 overflow-hidden shadow-2xl relative">
+                <Image src={service.img} alt={service.title} width={1200} height={900} format="webp" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 border-[10px] border-white/10"></div>
+              </div>
+            </div>
+            
+            {/* Content */}
+            <div class="w-full lg:w-1/2">
+              <h2 class="font-serif text-4xl font-bold text-brand-blue mb-6">{service.title}</h2>
+              <p class="font-sans text-lg text-gray-600 leading-relaxed mb-8">
+                {service.desc}
+              </p>
+              
+              <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-brand-accent mb-4">Capabilities include:</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                {service.features.map(feature => (
+                  <li class="flex items-center text-gray-700 font-sans">
+                    <span class="w-1.5 h-1.5 bg-brand-accent rounded-full mr-3"></span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              
+              <a href="/contact" class="inline-flex items-center text-brand-blue font-bold tracking-widest uppercase font-sans text-sm hover:text-brand-accent transition-colors group">
+                Request a Quote
+                <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

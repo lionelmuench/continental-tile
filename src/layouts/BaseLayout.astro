@@ -1,0 +1,51 @@
+---
+import '@fontsource/merriweather/400.css';
+import '@fontsource/merriweather/700.css';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/600.css';
+import '@fontsource/montserrat/700.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Continental Tile Contractors", description = "Focusing in new commercial construction and renovations, providing exceptional services in porcelain tile, vinyl, and carpet installations." } = Astro.props;
+
+// For generating canonical URL
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://continentaltileinc.com');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <title>{title === "Continental Tile Contractors" ? title : `${title} | Continental Tile Contractors`}</title>
+
+    {/* Google Analytics - loads only in production */}
+    {import.meta.env.PROD && import.meta.env.PUBLIC_GA_ID && (
+      <script type="text/partytown" async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`}></script>
+      <script type="text/partytown" set:html={`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${import.meta.env.PUBLIC_GA_ID}');
+      `} />
+    )}
+  </head>
+  <body class="bg-brand-bg text-brand-blue font-sans selection:bg-brand-accent selection:text-white antialiased flex flex-col min-h-screen">
+    <Header />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

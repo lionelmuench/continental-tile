@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+---
+
+<BaseLayout title="Our Story">
+  {/* Page Header */}
+  <section class="relative py-32 bg-brand-blue flex items-center justify-center border-b border-brand-accent/20">
+    <div class="absolute inset-0 overflow-hidden">
+      <Image src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=2560" alt="Architectural background" width={2560} height={1440} format="webp" class="w-full h-full object-cover opacity-10 mix-blend-luminosity grayscale" />
+    </div>
+    <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
+      <h1 class="font-serif text-5xl md:text-6xl font-bold text-brand-bg mb-6">Our Story</h1>
+      <p class="font-sans text-xl text-brand-accent tracking-widest uppercase font-semibold">Decades of Expertise</p>
+    </div>
+  </section>
+
+  {/* Main Content */}
+  <section class="py-24 bg-brand-bg">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-lg prose-headings:font-serif prose-headings:text-brand-blue prose-p:font-sans prose-p:text-gray-700 prose-p:leading-relaxed max-w-none">
+        
+        <h2 class="text-3xl font-bold mb-8">A Legacy of Quality Craftsmanship</h2>
+        
+        <p class="mb-6 drop-cap text-xl font-medium text-brand-blue">
+          As a third-generation family-owned and operated business, we have extensive expertise and deep industry relationships that allow us to navigate complex projects with relative ease.
+        </p>
+
+        <p class="mb-12">
+          At Continental Tile Contractors, we don't just lay floors; we build the foundational surfaces of your commercial and residential spaces. Focusing primarily on new commercial construction and high-end renovations, our team consistently delivers robust, timeless installations. 
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 my-16">
+          <div class="border-l-4 border-brand-accent pl-6">
+            <h3 class="text-xl font-bold text-brand-blue mb-4 uppercase tracking-widest text-sm font-sans">Our Vision</h3>
+            <p class="text-base">
+              Our commitment to innovative design and cutting-edge solutions sets us apart in the flooring industry. We constantly seek new methods and materials to provide superior installations that withstand commercial requirements while maintaining their aesthetic integrity.
+            </p>
+          </div>
+          <div class="border-l-4 border-brand-accent pl-6">
+            <h3 class="text-xl font-bold text-brand-blue mb-4 uppercase tracking-widest text-sm font-sans">Our Values</h3>
+            <p class="text-base">
+              Ensuring customer satisfaction is at the core of everything we do. We prioritize quality craftsmanship, safety, and attention to detail. We strive to create lasting relationships by delivering exceptional service on every project we undertake.
+            </p>
+          </div>
+        </div>
+
+        <figure class="my-16">
+          <Image src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1600" alt="Expert tile installation" width={1600} height={1067} format="webp" class="w-full h-auto shadow-2xl" />
+          <figcaption class="text-center text-sm mt-4 text-gray-500 font-sans tracking-wide">Expert installation of large-format porcelain tile.</figcaption>
+        </figure>
+
+        <h2 class="text-3xl font-bold mb-8 text-center pt-8 border-t border-gray-200">Ready to start your project?</h2>
+        <div class="text-center mt-8">
+          <a href="/contact" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-sm font-bold tracking-wide uppercase font-sans text-white bg-brand-accent hover:bg-brand-blue transition-all duration-300 shadow-xl">
+            Contact Us Today
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .drop-cap::first-letter {
+      float: left;
+      font-size: 4rem;
+      line-height: 1;
+      font-weight: 700;
+      margin-right: 0.2em;
+      color: var(--color-brand-accent);
+      font-family: var(--font-serif);
+      margin-top: -0.1em;
+    }
+  </style>
+</BaseLayout>

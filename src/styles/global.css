@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+    --color-brand-blue: #1C2434;
+    --color-brand-accent: #B8965B;
+    --color-brand-bg: #FDFBF7;
+
+    --font-serif: "Merriweather", serif;
+    --font-sans: "Montserrat", sans-serif;
+}

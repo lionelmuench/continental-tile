@@ -1,11 +1,175 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Verified robust Unsplash URLs (Updated to a clean, open space without framing pillars)
+const heroImage = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2560&h=1440&q=80";
+
+const services = [
+  {
+    title: "Tile Installation",
+    desc: "Exquisite porcelain, ceramic, and natural stone installations for commercial applications, ensuring durability and timeless elegance.",
+    href: "/services#tile",
+    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&h=600&q=80"
+  },
+  {
+    title: "Vinyl Flooring",
+    desc: "Premium luxury vinyl tile (LVT) and plank installations, combining robust commercial resilience with high-end aesthetic appeal.",
+    href: "/services#vinyl",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&h=600&q=80"
+  },
+  {
+    title: "Carpet Laying",
+    desc: "Precision commercial broadloom and carpet tile systems installed to withstand high traffic while maintaining supreme comfort.",
+    href: "/services#carpet",
+    img: "https://abfloors.com/wp-content/uploads/2015/01/commercial-flooring-Orlando.jpg"
+  }
+];
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout>
+  {/* HERO SECTION */}
+  <section class="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+    {/* Background Image & Overlay */}
+    <div class="absolute inset-0 z-0 bg-brand-blue">
+      <Image src={heroImage} alt="Luxury commercial tile installation" width={2560} height={1440} format="webp" class="w-full h-full object-cover object-center" />
+      <div class="absolute inset-0 bg-brand-blue/40"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-blue via-transparent to-transparent opacity-80"></div>
+    </div>
+
+    {/* Hero Content */}
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+      <span class="font-sans uppercase tracking-[0.25em] text-brand-accent/90 font-bold mb-6 block text-sm sm:text-base">
+        Commercial & Residential Flooring
+      </span>
+      <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-brand-bg leading-[1.1] mb-8">
+        Excellence in Tile, Vinyl,<br class="hidden md:block"/> and Carpet Installations
+      </h1>
+      <p class="font-sans text-lg sm:text-xl text-brand-bg/90 max-w-3xl mx-auto leading-relaxed mb-12">
+        Elevate your space with our expert craftsmanship and premium materials. Focusing on new commercial construction and high-end renovations.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <a href="/services" class="w-full sm:w-auto px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-1">
+          Explore Services
+        </a>
+        <a href="/contact" class="w-full sm:w-auto px-8 py-4 border border-brand-bg/30 text-brand-bg font-sans font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-brand-blue transition-all duration-300">
+          Book Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* TRUST BAR */}
+  <div class="bg-brand-accent py-8 relative z-20 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-around items-center gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
+        <div class="py-2 md:w-1/3">
+          <p class="font-serif italic text-white text-lg lg:text-xl">3rd Generation Family-Owned</p>
+        </div>
+        <div class="py-2 md:w-1/3">
+          <p class="font-serif italic text-white text-lg lg:text-xl">Decades of Industry Expertise</p>
+        </div>
+        <div class="py-2 md:w-1/3">
+          <p class="font-serif italic text-white text-lg lg:text-xl">Quality Craftsmanship Guaranteed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* SERVICES TEASER SECTION */}
+  <section class="py-24 sm:py-32 bg-brand-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-brand-accent/20 pb-8">
+        <div class="max-w-2xl">
+          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-sm mb-4">Our Expertise</h2>
+          <h3 class="font-serif text-4xl sm:text-5xl font-bold text-brand-blue tracking-tight">Exceptional services in all types of flooring.</h3>
+        </div>
+        <a href="/services" class="font-sans font-bold text-sm tracking-widest uppercase text-brand-blue hover:text-brand-accent transition-colors flex items-center group">
+          All Services
+          <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+        {services.map((service) => (
+          <a href={service.href} class="group block border border-transparent hover:border-brand-accent/20 transition-all duration-500 bg-white p-6 shadow-sm hover:shadow-xl">
+            <div class="aspect-w-16 aspect-h-12 overflow-hidden mb-8 bg-gray-100">
+              <Image src={service.img} alt={service.title} width={800} height={600} format="webp" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+            </div>
+            <h4 class="font-serif text-2xl font-bold text-brand-blue mb-4">{service.title}</h4>
+            <p class="font-sans text-gray-600 leading-relaxed group-hover:text-brand-blue transition-colors duration-300">
+              {service.desc}
+            </p>
+            <div class="mt-6 font-sans font-bold text-xs uppercase tracking-widest text-brand-accent group-hover:text-brand-blue transition-colors">
+              Discover More <span class="ml-1">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* VALUES / ABOUT TEASER */}
+  <section class="py-24 bg-brand-blue text-brand-bg relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5 mix-blend-overlay">
+      <svg class="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div>
+          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-sm mb-6">Our Story & Vision</h2>
+          <h3 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-bg leading-tight mb-8">
+            Decades of trust, built on quality craftsmanship.
+          </h3>
+          <p class="font-sans text-lg text-brand-bg/80 leading-relaxed mb-8">
+            As a third-generation family-owned and operated business, we have extensive expertise and deep industry relationships that allow us to navigate complex projects with relative ease.
+          </p>
+          <ul class="space-y-6 mb-12">
+            <li class="flex items-start">
+              <span class="text-brand-accent mr-4 text-xl">✓</span>
+              <div>
+                <strong class="font-serif text-xl block mb-1">Quality Craftsmanship</strong>
+                <span class="font-sans text-brand-bg/70 block">Attention to detail and customer satisfaction in every project.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-brand-accent mr-4 text-xl">✓</span>
+              <div>
+                <strong class="font-serif text-xl block mb-1">Customer Satisfaction</strong>
+                <span class="font-sans text-brand-bg/70 block">Creating lasting relationships by delivering exceptional service.</span>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-brand-accent mr-4 text-xl">✓</span>
+              <div>
+                <strong class="font-serif text-xl block mb-1">Innovative Design</strong>
+                <span class="font-sans text-brand-bg/70 block">Cutting-edge solutions setting us apart in the flooring industry.</span>
+              </div>
+            </li>
+          </ul>
+          <a href="/about" class="inline-flex px-8 py-4 bg-transparent border-2 border-brand-accent text-brand-accent font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent hover:text-white transition-all duration-300">
+            Read Our Story
+          </a>
+        </div>
+        <div class="relative">
+          <div class="aspect-w-4 aspect-h-5 lg:aspect-h-6">
+            <Image src="https://media.istockphoto.com/id/1158040145/photo/ceramic-tiles-tiler-placing-ceramic-wall-tile-in-position-over-adhesive-with-lash-tile.jpg?s=612x612&w=0&k=20&c=4JAqt5_sOFd6kCBaOw5edpiu-_p_d5R5dPAUAZA7vRM=" alt="Tile Craftsman at work" width={1200} height={1500} format="webp" class="object-cover w-full h-[600px] shadow-2xl" />
+          </div>
+          <div class="absolute -bottom-8 -left-8 bg-brand-bg p-8 shadow-xl max-w-xs hidden sm:block">
+            <p class="font-serif text-3xl font-bold text-brand-blue mb-2">100%</p>
+            <p class="font-sans text-sm font-semibold tracking-wide uppercase text-gray-500">Commitment to Excellence</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

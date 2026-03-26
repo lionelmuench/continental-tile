@@ -9,9 +9,21 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-types": "wrangler types"
   },
   "dependencies": {
-    "astro": "^6.0.5"
+    "@astrojs/cloudflare": "^13.1.2",
+    "@astrojs/partytown": "^2.1.5",
+    "@astrojs/sitemap": "^3.7.1",
+    "@fontsource/merriweather": "^5.2.11",
+    "@fontsource/montserrat": "^5.2.8",
+    "@tailwindcss/vite": "^4.2.1",
+    "astro": "^6.0.5",
+    "tailwindcss": "^4.2.1",
+    "wrangler": "^4.75.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }

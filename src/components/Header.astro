@@ -1,0 +1,82 @@
+---
+// src/components/Header.astro
+const navItems = [
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/services' },
+  { name: 'Our Story', href: '/about' },
+  { name: 'Portfolio', href: '/portfolio' },
+];
+---
+
+<header class="w-full border-b border-brand-accent/20 bg-brand-bg relative z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-24">
+      {/* Brand Logo */}
+      <div class="flex-shrink-0 flex items-center">
+        <a href="/" class="flex flex-col">
+          <span class="font-serif text-2xl font-bold tracking-tight text-brand-blue leading-none">CONTINENTAL TILE</span>
+          <span class="font-sans text-xs tracking-[0.2em] text-brand-accent uppercase mt-1">Contractors</span>
+        </a>
+      </div>
+
+      {/* Desktop Navigation */}
+      <nav class="hidden md:flex space-x-8 items-center">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class="font-sans text-sm font-semibold tracking-wide text-brand-blue hover:text-brand-accent transition-colors duration-200 uppercase"
+          >
+            {item.name}
+          </a>
+        ))}
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-semibold tracking-wide uppercase font-sans text-brand-bg bg-brand-blue hover:bg-brand-accent transition-all duration-300 shadow-sm"
+        >
+          Contact Us
+        </a>
+      </nav>
+
+      {/* Mobile Menu Button - Minimal styling */}
+      <div class="md:hidden flex items-center">
+        <button type="button" class="text-brand-blue hover:text-brand-accent p-2" aria-expanded="false" id="mobile-menu-btn">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {/* Mobile Menu (Hidden by default) */}
+  <div class="hidden md:hidden bg-brand-bg border-t border-brand-accent/10 absolute w-full left-0 top-full shadow-lg" id="mobile-menu">
+    <div class="px-4 pt-2 pb-6 space-y-1 sm:px-6">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="block px-3 py-4 text-base font-semibold text-brand-blue hover:text-brand-accent hover:bg-brand-blue/5 border-b border-brand-accent/10 uppercase tracking-widest font-sans"
+        >
+          {item.name}
+        </a>
+      ))}
+      <a
+        href="/contact"
+        class="block mt-4 text-center px-3 py-4 text-base font-bold text-brand-bg bg-brand-blue tracking-widest uppercase font-sans"
+      >
+        Contact Us
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>

@@ -1,0 +1,49 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-brand-blue text-brand-bg py-16 border-t border-brand-accent/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div class="md:col-span-2">
+        <a href="/" class="flex flex-col mb-6">
+          <span class="font-serif text-2xl font-bold tracking-tight text-brand-bg leading-none">CONTINENTAL TILE</span>
+          <span class="font-sans text-xs tracking-[0.2em] text-brand-accent uppercase mt-1">Contractors</span>
+        </a>
+        <p class="font-sans text-brand-bg/70 max-w-sm leading-relaxed mb-6">
+          Experience excellence in tile, vinyl, and carpet installations. Expert craftsmanship and premium materials for commercial and residential spaces.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-sans uppercase tracking-[0.15em] font-bold text-sm text-brand-accent mb-6">Services</h4>
+        <ul class="space-y-4 font-sans text-brand-bg/80">
+          <li><a href="/services#commercial" class="hover:text-brand-accent transition-colors">Commercial Construction</a></li>
+          <li><a href="/services#tile" class="hover:text-brand-accent transition-colors">Porcelain & Ceramic Tile</a></li>
+          <li><a href="/services#vinyl" class="hover:text-brand-accent transition-colors">Vinyl Installations</a></li>
+          <li><a href="/services#carpet" class="hover:text-brand-accent transition-colors">Professional Carpet Laying</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-sans uppercase tracking-[0.15em] font-bold text-sm text-brand-accent mb-6">Contact</h4>
+        <ul class="space-y-4 font-sans text-brand-bg/80">
+          <li><a href="tel:9143483400" class="hover:text-brand-accent transition-colors font-bold text-brand-bg tracking-wide">914.348.3400</a></li>
+          <li><a href="mailto:lisa@continentaltileinc.com" class="hover:text-brand-accent transition-colors break-all">lisa@continentaltileinc.com</a></li>
+          <li class="leading-relaxed pt-2">
+            195 S Broadway<br />
+            Tarrytown, NY 10591
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-brand-bg/10 flex flex-col md:flex-row items-center justify-between font-sans text-sm text-brand-bg/50">
+      <p>&copy; {year} Continental Tile Contractors. All rights reserved.</p>
+      <div class="flex space-x-6 mt-4 md:mt-0">
+        <span class="opacity-50">3rd Generation Family-Owned & Operated</span>
+      </div>
+    </div>
+  </div>
+</footer>
