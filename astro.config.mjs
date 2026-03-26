@@ -17,6 +17,12 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: 'passthrough'
+  }),
+  build: {
+    client: './',
+    server: './_worker.js'
+  },
   integrations: [sitemap(), partytown()]
 });
