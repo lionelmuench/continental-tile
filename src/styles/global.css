@@ -2,9 +2,13 @@
 
 @theme {
     --color-brand-blue: #1C2434;
-    --color-brand-accent: #B8965B;
+    --color-brand-accent: #C19A6B; /* Flat Earthy Ochre / Camel */
     --color-brand-bg: #FDFBF7;
 
-    --font-serif: "Merriweather", serif;
+    --font-serif: "Lora", Georgia, serif;
     --font-sans: "Montserrat", sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
 }

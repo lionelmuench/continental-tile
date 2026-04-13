@@ -10,7 +10,7 @@ import partytown from '@astrojs/partytown';
 export default defineConfig({
   site: 'https://continentaltileinc.com',
   image: {
-    domains: ['images.unsplash.com']
+    domains: ['images.unsplash.com', 'images.pexels.com', 'media.istockphoto.com', 'abfloors.com']
   },
   vite: {
     plugins: [tailwindcss()]

@@ -1,39 +1,70 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
+import tileImg from '../assets/portfolio/25-n-lex/6697d6_e11a78ef64b643409796a6426bd7332b~mv2.png';
+import lvtImg from '../assets/portfolio/25-n-lex/6697d6_0538474eac1b4da7a2453f7c2e4d5ba1~mv2.png';
+import carpetImg from '../assets/portfolio/the-allen/247_North_Ave20.webp';
 
 const servicesList = [
   {
     id: "tile",
-    title: "Porcelain & Ceramic Tile",
-    desc: "We specialize in the meticulous installation of porcelain, ceramic, and natural stone tiles. Engineered for longevity, our tile solutions are ideal for high-traffic commercial environments such as corporate lobbies, retail spaces, and hospitality venues, offering a seamless blend of durability and timeless design.",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&h=900&q=80",
-    features: ["Large-format tiles", "Natural stone & slabs", "Custom mosaics", "Waterproofing & leveling"]
+    title: "Tile Installation",
+    subtitle: "Commercial & Residential",
+    desc: "From high-traffic commercial lobbies to residential kitchen backsplashes and custom bathrooms, we install porcelain, ceramic, and natural stone tile that holds up and looks sharp for years. Our crews handle prep, waterproofing, leveling, and installation start to finish.",
+    img: tileImg,
+    features: [
+      "Porcelain & ceramic tile",
+      "Natural stone & large-format slabs",
+      "Custom mosaics & inlays",
+      "Floor leveling & waterproofing",
+      "Commercial lobbies & corridors",
+      "Residential kitchens & bathrooms"
+    ]
   },
   {
     id: "vinyl",
-    title: "Luxury Vinyl Flooring",
-    desc: "Our premium vinyl flooring options include Luxury Vinyl Tile (LVT) and Luxury Vinyl Plank (LVP), delivering the aesthetic of natural wood or stone with unmatched resilience. Moisture-resistant and easy to maintain, it's the perfect choice for dynamic commercial spaces.",
-    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&h=900&q=80",
-    features: ["LVT & LVP installation", "VCT (Vinyl Composition Tile)", "Acoustic underlayments", "Heat welding"]
+    title: "LVT / LVP Flooring",
+    subtitle: "Commercial & Residential",
+    desc: "Luxury Vinyl Tile (LVT) and Luxury Vinyl Plank (LVP) are the workhorses of modern flooring. They're moisture-resistant, durable, and available in finishes that genuinely look like wood or stone. We install for corporate offices, retail spaces, multifamily housing, and residential homes.",
+    img: lvtImg,
+    features: [
+      "LVT & LVP installation",
+      "Vinyl Composition Tile (VCT)",
+      "Acoustic underlayments",
+      "Heat welding & seaming",
+      "Commercial office & retail",
+      "Multifamily & residential"
+    ]
   },
   {
     id: "carpet",
-    title: "Commercial Carpet Laying",
-    desc: "From expansive broadloom to modular carpet tiles, we provide precision installations that enhance acoustics and comfort. Our carpet solutions are designed to endure intense foot traffic while maintaining their structured appearance.",
-    img: "https://abfloors.com/wp-content/uploads/2015/01/commercial-flooring-Orlando.jpg",
-    features: ["Modular carpet tiles", "Broadloom carpets", "Custom borders & inlays", "Moisture barrier adhesives"]
+    title: "Carpet Installation",
+    subtitle: "Commercial & Residential",
+    desc: "We install commercial broadloom and modular carpet tile for offices, hospitality spaces, and healthcare facilities. For residential clients, we handle everything from bedrooms and living areas to full-building installations. Clean, precise installs with proper stretch and seaming.",
+    img: carpetImg,
+    features: [
+      "Modular carpet tiles",
+      "Broadloom carpet",
+      "Custom borders & inlays",
+      "Moisture barrier adhesives",
+      "Commercial offices & hospitality",
+      "Residential whole-home installs"
+    ]
   }
 ];
 ---
 
-<BaseLayout title="Our Services - Tile, Vinyl, and Carpet">
+<BaseLayout
+  title="Services - Tile, LVT/LVP & Carpet Installation"
+  description="Continental Tile Contractors installs tile, LVT/LVP, and carpet for commercial and residential projects across NJ, NY, CT, and ME. 31 years of flooring expertise."
+>
   {/* Page Header */}
-  <section class="relative py-32 bg-brand-bg flex items-center justify-center border-b border-gray-200">
+  <section class="relative py-24 bg-brand-bg flex items-center justify-center border-b border-gray-200">
     <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
-      <h1 class="font-serif text-5xl md:text-6xl font-bold text-brand-blue mb-6">Our Services</h1>
-      <p class="font-sans text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-        Focusing in new commercial construction and renovations, Continental Tile provides exceptional services in all types of flooring.
+      <p class="font-sans text-xs font-bold uppercase tracking-[0.25em] text-brand-accent mb-4">What We Offer</p>
+      <h1 class="font-serif text-4xl md:text-5xl font-bold text-brand-blue mb-5">Our Services</h1>
+      <p class="font-sans text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
+        Commercial and residential flooring for new construction, renovations, and fit-outs. Tile, LVT/LVP, and carpet installed by our expert crew.
       </p>
     </div>
   </section>
@@ -41,37 +72,37 @@ const servicesList = [
   {/* Services List */}
   <div class="bg-white">
     {servicesList.map((service, index) => (
-      <section id={service.id} class={`py-24 border-b border-gray-100 ${index % 2 === 1 ? 'bg-brand-bg/50' : ''}`}>
+      <section id={service.id} class={`py-20 border-b border-gray-100 ${index % 2 === 1 ? 'bg-brand-bg/60' : ''}`}>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-16`}>
+          <div class={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-14`}>
             {/* Image */}
             <div class="w-full lg:w-1/2">
-              <div class="aspect-w-4 aspect-h-3 overflow-hidden shadow-2xl relative">
+              <div class="overflow-hidden shadow-xl">
                 <Image src={service.img} alt={service.title} width={1200} height={900} format="webp" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 border-[10px] border-white/10"></div>
               </div>
             </div>
             
             {/* Content */}
             <div class="w-full lg:w-1/2">
-              <h2 class="font-serif text-4xl font-bold text-brand-blue mb-6">{service.title}</h2>
-              <p class="font-sans text-lg text-gray-600 leading-relaxed mb-8">
+              <p class="font-sans text-xs font-bold uppercase tracking-[0.2em] text-brand-accent mb-2">{service.subtitle}</p>
+              <h2 class="font-serif text-3xl font-bold text-brand-blue mb-5">{service.title}</h2>
+              <p class="font-sans text-gray-600 leading-relaxed mb-8">
                 {service.desc}
               </p>
               
-              <h3 class="font-sans text-sm font-bold uppercase tracking-widest text-brand-accent mb-4">Capabilities include:</h3>
-              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+              <h3 class="font-sans text-xs font-bold uppercase tracking-widest text-brand-blue mb-4">Capabilities</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
                 {service.features.map(feature => (
-                  <li class="flex items-center text-gray-700 font-sans">
-                    <span class="w-1.5 h-1.5 bg-brand-accent rounded-full mr-3"></span>
+                  <li class="flex items-center text-gray-700 font-sans text-sm">
+                    <span class="w-1.5 h-1.5 bg-brand-accent rounded-full mr-3 flex-shrink-0"></span>
                     {feature}
                   </li>
                 ))}
               </ul>
               
-              <a href="/contact" class="inline-flex items-center text-brand-blue font-bold tracking-widest uppercase font-sans text-sm hover:text-brand-accent transition-colors group">
+              <a href="/contact" class="inline-flex items-center gap-2 px-7 py-3.5 bg-brand-blue text-brand-bg font-sans font-bold uppercase tracking-widest text-xs hover:bg-brand-accent transition-colors duration-300">
                 Request a Quote
-                <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </a>
@@ -81,4 +112,21 @@ const servicesList = [
       </section>
     ))}
   </div>
+
+  {/* Bottom CTA */}
+  <section class="py-16 bg-brand-blue">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-bg mb-4">Not sure what you need?</h2>
+      <p class="font-sans text-brand-bg/75 mb-8 text-sm leading-relaxed max-w-lg mx-auto">Call us and we'll talk through the project. We've seen most situations and can help you figure out which product and approach works best.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="tel:9143483400" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-colors shadow-lg">
+          <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+          914-348-3400
+        </a>
+        <a href="/contact" class="inline-flex px-8 py-4 border border-brand-bg/30 text-brand-bg font-sans font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-brand-blue transition-all duration-300">
+          Send a Message
+        </a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

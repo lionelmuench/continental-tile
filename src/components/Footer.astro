@@ -1,49 +1,83 @@
 ---
 // src/components/Footer.astro
 const year = new Date().getFullYear();
+const currentPath = Astro.url.pathname;
+
+let hash = 0;
+for (let i = 0; i < currentPath.length; i++) {
+  hash = (hash << 5) - hash + currentPath.charCodeAt(i);
+  hash |= 0; 
+}
+hash = Math.abs(hash);
+
+const vFooter = hash % 3;
+
+const footerDesc = [
+  "Third-generation flooring contractors. Expert installation of tile, LVT/LVP, and carpet for commercial and residential projects across the Tri-State area and beyond.",
+  "Family-owned contractors providing professional tile, luxury vinyl, and carpet installations. We serve commercial developers and homeowners across the region.",
+  "Your reliable partner for commercial and residential flooring. Over 31 years of experience installing high-quality tile, LVP, and broadloom carpet."
+][vFooter];
 ---
 
-<footer class="bg-brand-blue text-brand-bg py-16 border-t border-brand-accent/20">
+<footer class="bg-brand-blue text-brand-bg pt-16 pb-8 border-t border-brand-accent/20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 pb-12 border-b border-brand-bg/10">
       <div class="md:col-span-2">
         <a href="/" class="flex flex-col mb-6">
           <span class="font-serif text-2xl font-bold tracking-tight text-brand-bg leading-none">CONTINENTAL TILE</span>
-          <span class="font-sans text-xs tracking-[0.2em] text-brand-accent uppercase mt-1">Contractors</span>
+          <span class="font-sans text-[10px] tracking-[0.2em] text-brand-accent uppercase mt-1">Contractors</span>
         </a>
-        <p class="font-sans text-brand-bg/70 max-w-sm leading-relaxed mb-6">
-          Experience excellence in tile, vinyl, and carpet installations. Expert craftsmanship and premium materials for commercial and residential spaces.
+        <p class="font-sans text-brand-bg/70 max-w-sm leading-relaxed mb-6 text-sm">
+          {footerDesc}
         </p>
+        <div class="flex gap-4 flex-wrap text-xs font-sans text-brand-bg/40 uppercase tracking-widest">
+          <span>Est. 1995</span>
+          <span>·</span>
+          <span>3rd Generation</span>
+          <span>·</span>
+          <span>31 Years in Business</span>
+        </div>
       </div>
 
       <div>
-        <h4 class="font-sans uppercase tracking-[0.15em] font-bold text-sm text-brand-accent mb-6">Services</h4>
-        <ul class="space-y-4 font-sans text-brand-bg/80">
-          <li><a href="/services#commercial" class="hover:text-brand-accent transition-colors">Commercial Construction</a></li>
-          <li><a href="/services#tile" class="hover:text-brand-accent transition-colors">Porcelain & Ceramic Tile</a></li>
-          <li><a href="/services#vinyl" class="hover:text-brand-accent transition-colors">Vinyl Installations</a></li>
-          <li><a href="/services#carpet" class="hover:text-brand-accent transition-colors">Professional Carpet Laying</a></li>
+        <h4 class="font-sans uppercase tracking-[0.15em] font-bold text-xs text-brand-accent mb-6">Services</h4>
+        <ul class="space-y-3 font-sans text-brand-bg/80 text-sm">
+          <li><a href="/services#tile" class="hover:text-brand-accent transition-colors">Tile installation</a></li>
+          <li><a href="/services#vinyl" class="hover:text-brand-accent transition-colors">LVT / LVP installation</a></li>
+          <li><a href="/services#carpet" class="hover:text-brand-accent transition-colors">Carpet installation</a></li>
+          <li><a href="/areas" class="hover:text-brand-accent transition-colors">Areas Served</a></li>
         </ul>
       </div>
 
       <div>
-        <h4 class="font-sans uppercase tracking-[0.15em] font-bold text-sm text-brand-accent mb-6">Contact</h4>
-        <ul class="space-y-4 font-sans text-brand-bg/80">
-          <li><a href="tel:9143483400" class="hover:text-brand-accent transition-colors font-bold text-brand-bg tracking-wide">914.348.3400</a></li>
-          <li><a href="mailto:lisa@continentaltileinc.com" class="hover:text-brand-accent transition-colors break-all">lisa@continentaltileinc.com</a></li>
-          <li class="leading-relaxed pt-2">
+        <h4 class="font-sans uppercase tracking-[0.15em] font-bold text-xs text-brand-accent mb-6">Contact</h4>
+        <ul class="space-y-4 font-sans text-brand-bg/80 text-sm">
+          <li>
+            <a href="tel:9143483400" class="hover:text-brand-accent transition-colors font-bold text-brand-bg tracking-wide text-base block">
+              914-348-3400
+            </a>
+          </li>
+          <li>
+            <a href="mailto:Info@continentaltileinc.com" class="hover:text-brand-accent transition-colors break-all">
+              Info@continentaltileinc.com
+            </a>
+          </li>
+          <li class="leading-relaxed pt-2 text-brand-bg/60">
             195 S Broadway<br />
             Tarrytown, NY 10591
           </li>
         </ul>
+
+        <div class="mt-8">
+          <h4 class="font-sans uppercase tracking-[0.15em] font-bold text-xs text-brand-accent mb-3">Areas Served</h4>
+          <p class="font-sans text-brand-bg/60 text-xs leading-relaxed">New York · New Jersey · Connecticut · Maine</p>
+        </div>
       </div>
     </div>
 
-    <div class="mt-16 pt-8 border-t border-brand-bg/10 flex flex-col md:flex-row items-center justify-between font-sans text-sm text-brand-bg/50">
+    <div class="mt-8 flex flex-col md:flex-row items-center justify-between font-sans text-xs text-brand-bg/40 gap-4">
       <p>&copy; {year} Continental Tile Contractors. All rights reserved.</p>
-      <div class="flex space-x-6 mt-4 md:mt-0">
-        <span class="opacity-50">3rd Generation Family-Owned & Operated</span>
-      </div>
+      <a href="/contact" class="hover:text-brand-accent transition-colors uppercase tracking-widest">Request a Quote</a>
     </div>
   </div>
 </footer>

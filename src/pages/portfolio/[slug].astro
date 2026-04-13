@@ -1,0 +1,298 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { projects, type Project } from '../../data/portfolio';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+// Load all project images
+const allImages = import.meta.glob('../../assets/portfolio/**/*.{jpeg,jpg,png,webp,JPEG,JPG,PNG,WEBP}', { eager: true }) as Record<string, any>;
+
+// Filter by the project's folder slug
+const projectImages = Object.keys(allImages)
+  .filter(key => key.includes(`/${project.slug}/`))
+  .map(key => allImages[key].default);
+
+// Determine hero image
+let heroImage = null;
+if (project.thumbnailMatch) {
+  const exactKey = Object.keys(allImages).find(key => key.includes(project.thumbnailMatch!));
+  if (exactKey) {
+    heroImage = allImages[exactKey].default;
+  }
+}
+if (!heroImage && projectImages.length > 0) {
+  heroImage = projectImages[0];
+}
+
+const galleryImages = projectImages.filter(img => img !== heroImage);
+
+const title = `${project.title} - Portfolio | Continental Tile Contractors`;
+const description = project.description || `View Continental Tile Contractors' installation work at ${project.title} in ${project.location}.`;
+---
+
+<BaseLayout title={title} description={description}>
+  {/* Project Header */}
+  <section class="pt-32 pb-16 bg-brand-bg relative border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-4">
+        <a href="/portfolio" class="inline-flex items-center text-xs font-bold font-sans uppercase tracking-widest text-brand-accent hover:text-brand-blue transition-colors group">
+          <svg class="w-4 h-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Portfolio
+        </a>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
+        <div class="lg:col-span-2">
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-blue mb-4 leading-tight">
+            {project.title}
+          </h1>
+          <p class="font-sans text-xl text-gray-500 mb-8">{project.location}</p>
+          
+          {project.description && (
+            <p class="font-sans text-lg text-gray-700 leading-relaxed max-w-2xl">
+              {project.description}
+            </p>
+          )}
+        </div>
+        
+        <div class="grid grid-cols-2 lg:grid-cols-1 gap-6 bg-gray-50 p-8 border border-gray-100 self-start">
+          {project.type && (
+            <div>
+              <p class="font-sans text-xs font-bold uppercase tracking-widest text-brand-accent mb-1">Project Type</p>
+              <p class="font-sans text-brand-blue font-semibold">{project.type}</p>
+            </div>
+          )}
+          {project.date && (
+            <div>
+              <p class="font-sans text-xs font-bold uppercase tracking-widest text-brand-accent mb-1">Date</p>
+              <p class="font-sans text-brand-blue font-semibold">{project.date}</p>
+            </div>
+          )}
+          <div>
+            <p class="font-sans text-xs font-bold uppercase tracking-widest text-brand-accent mb-1">Services Provided</p>
+            <p class="font-sans text-brand-blue font-semibold line-clamp-2">Tile &amp; Flooring Installation</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Gallery */}
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {projectImages.length === 0 ? (
+        <div class="text-center py-20 bg-gray-50 border border-gray-100">
+          <p class="font-sans text-gray-500">Photos coming soon.</p>
+        </div>
+      ) : (
+        <div class="space-y-6">
+          {/* Main Hero Image */}
+          {heroImage && (
+            <div class="w-full h-auto bg-gray-100 cursor-pointer group relative overflow-hidden" onclick="openLightbox(0)">
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-10 pointer-events-none flex items-center justify-center">
+                <svg class="w-12 h-12 text-white/0 group-hover:text-white/80 transition-all duration-300 transform scale-50 group-hover:scale-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                </svg>
+              </div>
+              <Image 
+                src={heroImage} 
+                alt={`${project.title} hero image`} 
+                width={1200}
+                format="webp"
+                quality={85}
+                class="lightbox-img w-full h-auto max-h-[80vh] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]" 
+                data-index="0"
+              />
+            </div>
+          )}
+          
+          {/* Masonry-style Grid for the rest */}
+          {galleryImages.length > 0 && (
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+              {galleryImages.map((img, index) => (
+                <div class="break-inside-avoid relative group cursor-pointer overflow-hidden bg-gray-100" onclick={`openLightbox(${index + (heroImage ? 1 : 0)})`}>
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 z-10 pointer-events-none flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white/0 group-hover:text-white/80 transition-all duration-300 transform scale-75 group-hover:scale-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                  </div>
+                  <Image 
+                    src={img} 
+                    alt={`${project.title} detail ${index + 1}`} 
+                    width={800}
+                    format="webp"
+                    quality={80}
+                    class="lightbox-img w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.03]" 
+                    data-index={index + (heroImage ? 1 : 0)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  </section>
+
+  {/* CTA Footer */}
+  <section class="py-20 bg-brand-blue">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-bg mb-6">Start your next project with us.</h2>
+      <p class="font-sans text-brand-bg/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+        We bring the same standard of quality to every job we take. Contact us to discuss your upcoming commercial or residential flooring needs.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+        <a href="tel:9143483400" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-colors shadow-lg">
+          <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+          914-348-3400
+        </a>
+        <a href="/contact" class="inline-flex px-8 py-4 border border-brand-bg/40 text-brand-bg font-sans font-semibold text-sm hover:bg-white hover:text-brand-blue transition-all duration-300">
+          Request a Quote
+        </a>
+      </div>
+    </div>
+  </section>
+  </section>
+
+  {/* Lightbox Modal */}
+  <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center hidden">
+    {/* Close Button */}
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-50">
+      <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    
+    {/* Prev Button */}
+    <button onclick="changeLightbox(-1)" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors z-50 p-4">
+      <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    
+    {/* Next Button */}
+    <button onclick="changeLightbox(1)" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors z-50 p-4">
+      <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+    
+    {/* Image Container */}
+    <div class="w-full h-full p-4 sm:p-12 flex items-center justify-center relative select-none">
+      <img id="lightbox-img" src="" alt="Enlarged view" class="max-w-full max-h-full object-contain shadow-2xl transition-transform duration-300 transform scale-95 opacity-0" />
+      
+      {/* Loading indicator */}
+      <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+        <svg class="animate-spin w-8 h-8 text-white/50" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+    </div>
+    
+    {/* Counter */}
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/50 font-sans tracking-widest text-xs z-50">
+      <span id="lightbox-counter"></span>
+    </div>
+  </div>
+
+</BaseLayout>
+
+<script is:inline>
+  let currentIndex = 0;
+  const images = document.querySelectorAll('.lightbox-img');
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCount = document.getElementById('lightbox-counter');
+  const lbLoader = document.getElementById('lightbox-loader');
+  
+  window.openLightbox = (index) => {
+    if (images.length === 0) return;
+    currentIndex = index;
+    updateLightboxUI();
+    lb.classList.remove('hidden');
+    // slight delay to allow display block to render before opacity transition
+    setTimeout(() => {
+      lb.style.pointerEvents = 'auto';
+      lb.style.opacity = '1';
+      document.body.style.overflow = 'hidden'; // prevent scrolling
+    }, 10);
+  };
+  
+  window.closeLightbox = () => {
+    lb.style.opacity = '0';
+    lb.style.pointerEvents = 'none';
+    document.body.style.overflow = '';
+    lbImg.style.opacity = '0';
+    lbImg.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      lb.classList.add('hidden');
+      lbImg.src = ''; // clear source
+    }, 300);
+  };
+  
+  window.changeLightbox = (direction) => {
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = images.length - 1;
+    if (currentIndex >= images.length) currentIndex = 0;
+    
+    // Animate out current image
+    lbImg.style.opacity = '0';
+    lbImg.style.transform = direction > 0 ? 'scale(0.98) translateX(-20px)' : 'scale(0.98) translateX(20px)';
+    
+    setTimeout(() => {
+      updateLightboxUI();
+    }, 150);
+  };
+  
+  function updateLightboxUI() {
+    const targetEl = Array.from(images).find(el => parseInt(el.getAttribute('data-index')) === currentIndex);
+    if (!targetEl) return;
+    
+    lbCount.textContent = `${currentIndex + 1} / ${images.length}`;
+    lbLoader.style.opacity = '1';
+    
+    // Preload image
+    const tempImg = new Image();
+    tempImg.onload = () => {
+      lbImg.src = targetEl.getAttribute('src');
+      lbLoader.style.opacity = '0';
+      
+      // Animate in
+      lbImg.style.transform = 'scale(1) translateX(0)';
+      lbImg.style.opacity = '1';
+    };
+    tempImg.src = targetEl.getAttribute('src');
+  }
+  
+  // Close on background click
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb || e.target.closest('.p-12')) {
+      // make sure it's not the image itself
+      if (e.target !== lbImg) closeLightbox();
+    }
+  });
+  
+  // Keyboard controls
+  document.addEventListener('keydown', (e) => {
+    if (lb.classList.contains('hidden') || lb.style.opacity === '0') return;
+    
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') changeLightbox(1);
+    if (e.key === 'ArrowLeft') changeLightbox(-1);
+  });
+</script>

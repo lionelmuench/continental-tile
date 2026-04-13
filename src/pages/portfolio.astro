@@ -1,69 +1,121 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
+import { projects } from '../data/portfolio';
 
-// Placeholder portfolio images showcasing high-end commercial tile/flooring.
-const projects = [
-  { img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800", title: "Corporate Headquarters Lobby", type: "Large-Format Porcelain" },
-  { img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800", title: "Luxury Retail Boutique", type: "Ceramic & Marble Overlay" },
-  { img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=800", title: "Modern Office Workspace", type: "Commercial Broadloom Carpet" },
-  { img: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=800", title: "Hospitality Corridor", type: "Luxury Vinyl Plank (LVP)" },
-  { img: "https://images.unsplash.com/photo-1545601445-4d6a0a0565f0?auto=format&fit=crop&q=80&w=800", title: "Healthcare Facility", type: "Seamless Vinyl Coved" },
-  { img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800", title: "Executive Restrooms", type: "Custom Floor & Wall Slate" }
-];
+// Load all project images
+const allImages = import.meta.glob('../assets/portfolio/**/*.{jpeg,jpg,png,webp,JPEG,JPG,PNG,WEBP}', { eager: true }) as Record<string, any>;
+
+// Function to find the first image for a given project slug to use as thumbnail
+const getThumbnail = (project: any) => {
+  if (project.thumbnailMatch) {
+    const exactKey = Object.keys(allImages).find(key => key.includes(project.thumbnailMatch));
+    if (exactKey) return allImages[exactKey].default;
+  }
+  const matchingKey = Object.keys(allImages).find(key => key.includes(`/${project.slug}/`));
+  return matchingKey ? allImages[matchingKey].default : null;
+};
 ---
 
-<BaseLayout title="Portfolio - Our Work">
+<BaseLayout
+  title="Portfolio - Recent Flooring Projects"
+  description="View recent tile, LVT/LVP, and carpet installations by Continental Tile Contractors in Greenwich CT, Brookfield CT, New Rochelle NY, White Plains NY, and more."
+>
   {/* Page Header */}
-  <section class="relative py-32 bg-brand-blue flex items-center justify-center border-b border-brand-accent/20">
+  <section class="relative py-24 bg-brand-blue flex items-center justify-center border-b border-brand-accent/20">
     <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
-      <h1 class="font-serif text-5xl md:text-6xl font-bold text-brand-bg mb-6">Our Portfolio</h1>
-      <p class="font-sans text-xl text-brand-accent tracking-widest uppercase font-semibold">Decades of Proven Excellence</p>
+      <p class="font-sans text-xs font-bold uppercase tracking-[0.25em] text-brand-accent mb-4">Recent Work</p>
+      <h1 class="font-serif text-4xl md:text-5xl font-bold text-brand-bg mb-5">Portfolio</h1>
+      <p class="font-sans text-base text-brand-bg/70 max-w-xl mx-auto leading-relaxed">
+        We install for corporate offices, luxury apartment buildings, auto dealerships, and residential developments. Here is a look at some of our recent installations.
+      </p>
     </div>
   </section>
 
-  <section class="py-24 bg-brand-bg">
+  <section class="py-16 sm:py-24 bg-brand-bg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-brand-accent/30 pb-8">
-        <div class="max-w-xl">
-          <p class="font-sans text-lg text-gray-600 leading-relaxed">
-            Explore our diverse range of commercial and residential installations. Our commitment to rigorous standards and unparalleled craftsmanship is evident in every project.
-          </p>
+
+      {/* Project grid - 5 projects, 2+3 layout on desktop */}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {projects.slice(0, 2).map((project) => {
+          const thumb = getThumbnail(project);
+          return (
+            <a href={`/portfolio/${project.slug}`} class="group relative bg-white shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full border border-gray-100">
+              <div class="overflow-hidden relative">
+                {thumb ? (
+                  <Image
+                    src={thumb}
+                    alt={project.title}
+                    width={900}
+                    height={680}
+                    format="webp"
+                    class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                ) : (
+                  <div class="w-full h-72 bg-gray-200"></div>
+                )}
+                {/* Subtle dark overlay on hover */}
+                <div class="absolute inset-0 bg-brand-blue/0 group-hover:bg-brand-blue/10 transition-colors duration-300"></div>
+              </div>
+              <div class="px-5 py-4 border-t border-gray-100 flex items-center justify-between">
+                <div>
+                  <h3 class="font-serif text-lg font-bold text-brand-blue group-hover:text-brand-accent transition-colors">{project.title}</h3>
+                  <p class="font-sans text-xs text-gray-500 mt-0.5">{project.location}</p>
+                </div>
+                <span class="font-sans text-[10px] uppercase font-bold text-gray-400 group-hover:text-brand-accent transition-colors">View Gallery &rarr;</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {projects.slice(2).map((project) => {
+          const thumb = getThumbnail(project);
+          return (
+            <a href={`/portfolio/${project.slug}`} class="group relative bg-white shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full border border-gray-100">
+              <div class="overflow-hidden relative">
+                {thumb ? (
+                  <Image
+                    src={thumb}
+                    alt={project.title}
+                    width={900}
+                    height={680}
+                    format="webp"
+                    class="w-full h-60 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                ) : (
+                  <div class="w-full h-60 bg-gray-200"></div>
+                )}
+                <div class="absolute inset-0 bg-brand-blue/0 group-hover:bg-brand-blue/10 transition-colors duration-300"></div>
+              </div>
+              <div class="px-5 py-4 border-t border-gray-100 flex items-center justify-between">
+                <div>
+                  <h3 class="font-serif text-base font-bold text-brand-blue group-hover:text-brand-accent transition-colors">{project.title}</h3>
+                  <p class="font-sans text-xs text-gray-500 mt-0.5">{project.location}</p>
+                </div>
+                <span class="font-sans text-[10px] uppercase font-bold text-gray-400 group-hover:text-brand-accent transition-colors">View &rarr;</span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      {/* CTA */}
+      <div class="mt-20 pt-12 border-t border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <h2 class="font-serif text-2xl font-bold text-brand-blue mb-2">Have a project in mind?</h2>
+          <p class="font-sans text-gray-500 text-sm max-w-md">We work with GCs, developers, and homeowners. Call us or send a message and we'll get back to you quickly.</p>
         </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <div class="group relative overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 block">
-            <div class="aspect-w-4 aspect-h-3 overflow-hidden">
-              <Image 
-                src={project.img} 
-                alt={project.title}
-                width={800}
-                height={600}
-                format="webp" 
-                class="w-full h-72 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
-            </div>
-            
-            <div class="absolute inset-0 bg-gradient-to-t from-brand-blue/90 via-brand-blue/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-              <span class="font-sans text-brand-accent uppercase tracking-widest text-xs font-bold mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                {project.type}
-              </span>
-              <h3 class="font-serif text-xl font-bold text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-                {project.title}
-              </h3>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div class="mt-20 text-center">
-        <h2 class="font-serif text-3xl font-bold text-brand-blue mb-8">Ready to elevate your space?</h2>
-        <a href="/contact" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-sm font-bold tracking-wide uppercase font-sans text-brand-bg bg-brand-blue hover:bg-brand-accent transition-colors duration-300 shadow-xl">
-          Start a Conversation
-        </a>
+        <div class="flex flex-col sm:flex-row gap-4 flex-shrink-0">
+          <a href="tel:9143483400" class="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-xs hover:bg-brand-accent/90 transition-colors shadow-md">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+            914-348-3400
+          </a>
+          <a href="/contact" class="inline-flex items-center justify-center px-7 py-3.5 border border-brand-blue text-brand-blue font-sans font-bold uppercase tracking-widest text-xs hover:bg-brand-blue hover:text-brand-bg transition-all duration-300">
+            Send a Message
+          </a>
+        </div>
       </div>
     </div>
   </section>

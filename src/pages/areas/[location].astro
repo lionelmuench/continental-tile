@@ -1,0 +1,266 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { locations, type Location } from '../../data/locations';
+import heroImg from '../../assets/portfolio/100-east-putnam/305 Kitchen Living_final (1).jpg';
+import tileImg from '../../assets/portfolio/25-n-lex/6697d6_e11a78ef64b643409796a6426bd7332b~mv2.png';
+import lvtImg from '../../assets/portfolio/25-n-lex/6697d6_0538474eac1b4da7a2453f7c2e4d5ba1~mv2.png';
+import carpetImg from '../../assets/portfolio/the-allen/247_North_Ave20.webp';
+
+export async function getStaticPaths() {
+  return locations.map((location) => ({
+    params: { location: location.slug },
+    props: { location },
+  }));
+}
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+const { city, state, stateAbbr, region } = location;
+
+// Strip the state abbreviation suffix from the region label for display
+// e.g. "Westchester County, NY" → "Westchester County"
+const regionDisplay = region ? region.replace(new RegExp(`,\\s*${stateAbbr}$`), '').trim() : state;
+
+const pageTitle = `Tile & Flooring Contractors in ${city}, ${stateAbbr}`;
+const metaDescription = `Continental Tile Contractors installs tile, LVT/LVP, and carpet in ${city}, ${state}. Commercial and residential flooring. 31 years in business. Call 914-348-3400.`;
+
+// Content Spinning Hash Logic
+let hash = 0;
+for (let i = 0; i < city.length; i++) {
+  hash = (hash << 5) - hash + city.charCodeAt(i);
+  hash |= 0; 
+}
+hash = Math.abs(hash);
+
+const vHero = hash % 3;
+const vTile = Math.floor(hash / 3) % 3;
+const vLvt = Math.floor(hash / 9) % 3;
+const vCarpet = Math.floor(hash / 27) % 3;
+const vAbout = Math.floor(hash / 81) % 3;
+
+const heroDesc = [
+  `Continental Tile Contractors installs tile, LVT/LVP, and carpet for commercial and residential projects in ${city} and throughout ${regionDisplay}. Family-owned, 31 years in business.`,
+  `We provide professional flooring installation for projects in ${city}. As a third-generation contractor, we handle tile, luxury vinyl, and broadloom carpet across ${regionDisplay}.`,
+  `Built on 31 years of trade experience, our crews install tile and resilient flooring throughout ${city}. Commercial fit-outs and residential builds are executed with absolute precision.`
+][vHero];
+
+const aboutDesc = [
+  `Based in Tarrytown, NY, we've been installing flooring in ${city} and across ${regionDisplay} since 1995. As a third-generation family business, we work directly with GCs, developers, property managers, and homeowners.`,
+  `We have been installing floors since 1995. As a third-generation family business, we built our reputation in ${regionDisplay} on jobs well done.`,
+  `Operating across ${regionDisplay} for over three decades. Our family brings 31 years of technical flooring expertise to every single job site in ${city}, large or small.`
+][vAbout];
+
+const services = [
+  {
+    title: "Tile Installation",
+    desc: [
+      `Porcelain, ceramic, and natural stone tile for commercial and residential projects in ${city}. Kitchens, bathrooms, lobbies, and more.`,
+      `From heavy commercial lobbies to custom residential bathrooms in ${city}. We deliver excellence in flooring every time.`,
+      `Expert tile installation for ${city} builds. We handle large format porcelain, ceramic walls, and natural stone floors with rigorous attention to detail.`
+    ][vTile],
+    href: "/services#tile",
+    img: tileImg
+  },
+  {
+    title: "LVT / LVP Flooring",
+    desc: [
+      `Luxury vinyl tile and plank. Moisture-resistant and durable. Perfect for high-traffic commercial spaces and ${city} residential homes alike.`,
+      `LVT and LVP floors offer unmatched durability. We install these resilient systems in corporate offices, retail environments, and ${city} households.`,
+      `Modern vinyl plank floors look great and handle heavy wear. Our crews install LVP throughout ${city} for multifamily developers and general contractors.`
+    ][vLvt],
+    href: "/services#vinyl",
+    img: lvtImg
+  },
+  {
+    title: "Carpet Installation",
+    desc: [
+      `Commercial broadloom and modular carpet tile for offices, hospitality, and residential spaces in ${city} and the surrounding area.`,
+      `Structured carpet installations spanning from corporate boardrooms to ${city} living spaces. Quiet, warm, and built for heavy foot traffic.`,
+      `We lay modular carpet tiles and traditional broadloom across ${regionDisplay}. Perfect for anything from office buildings to apartments.`
+    ][vCarpet],
+    href: "/services#carpet",
+    img: carpetImg
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={metaDescription}>
+
+  {/* Hero - left-aligned, matches homepage */}
+  <section class="relative h-[80vh] min-h-[580px] flex items-center justify-start overflow-hidden">
+    {/* Background Image & Overlay */}
+    <div class="absolute inset-0 z-0 bg-brand-blue">
+      <Image src={heroImg} alt={`Commercial & residential flooring in ${city}, ${state}`} width={2560} format="webp" class="w-full h-full object-cover object-center" loading="eager" />
+      <div class="absolute inset-0 bg-brand-blue/55"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-blue/80 via-brand-blue/30 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8">
+      <div class="max-w-2xl">
+        <p class="font-sans text-xs font-bold uppercase tracking-[0.25em] text-brand-accent mb-5">
+          {region}
+        </p>
+        <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-brand-bg leading-[1.1] mb-6">
+          Flooring Contractors<br class="hidden sm:block" /> Serving {city}, {stateAbbr}
+        </h1>
+        <p class="font-sans text-base sm:text-lg text-brand-bg/85 max-w-xl leading-relaxed mb-10">
+          {heroDesc}
+        </p>
+        <div class="flex flex-col sm:flex-row items-start gap-4">
+          <a href="/services" class="inline-flex px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-all duration-300 shadow-lg">
+            View Our Services
+          </a>
+          <a href="tel:9143483400" class="inline-flex items-center gap-2 px-8 py-4 border border-brand-bg/40 text-brand-bg font-sans font-semibold text-sm hover:bg-white hover:text-brand-blue transition-all duration-300">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+            914-348-3400
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Trust bar - same as homepage */}
+  <div class="bg-brand-accent py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-around items-center gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
+        <div class="py-2 md:w-1/3">
+          <p class="font-serif font-bold text-white text-lg">3rd Generation Family Business</p>
+          <p class="font-sans text-white/75 text-xs uppercase tracking-widest mt-1">Owned &amp; Operated Since 1995</p>
+        </div>
+        <div class="py-2 md:w-1/3">
+          <p class="font-serif font-bold text-white text-lg">31 Years in Business</p>
+          <p class="font-sans text-white/75 text-xs uppercase tracking-widest mt-1">Commercial &amp; Residential</p>
+        </div>
+        <div class="py-2 md:w-1/3">
+          <p class="font-serif font-bold text-white text-lg">NJ · NY · CT · ME</p>
+          <p class="font-sans text-white/75 text-xs uppercase tracking-widest mt-1">Licensed &amp; Insured</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Services in this area - same card structure as homepage */}
+  <section class="py-20 bg-brand-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-brand-accent/20 pb-8">
+        <div class="max-w-2xl">
+          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-xs mb-3">What We Install</h2>
+          <h3 class="font-serif text-3xl sm:text-4xl font-bold text-brand-blue">Flooring services in {city}.</h3>
+        </div>
+        <a href="/services" class="font-sans font-bold text-xs tracking-widest uppercase text-brand-blue hover:text-brand-accent transition-colors flex items-center group flex-shrink-0">
+          All Services
+          <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+        {services.map((service) => (
+          <a href={service.href} class="group block hover:shadow-xl transition-all duration-500 bg-white">
+            <div class="overflow-hidden bg-gray-100">
+              <Image src={service.img} alt={service.title} width={800} height={600} format="webp" class="w-full h-52 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+            </div>
+            <div class="p-6">
+              <h4 class="font-serif text-xl font-bold text-brand-blue mb-3">{service.title}</h4>
+              <p class="font-sans text-gray-600 text-sm leading-relaxed">{service.desc}</p>
+              <div class="mt-5 font-sans font-bold text-xs uppercase tracking-widest text-brand-accent group-hover:text-brand-blue transition-colors">
+                Learn More <span class="ml-1">→</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* About teaser - matches homepage style */}
+  <section class="py-20 bg-brand-blue text-brand-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div>
+          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-xs mb-5">Why Continental Tile</h2>
+          <h3 class="font-serif text-3xl sm:text-4xl font-bold text-brand-bg leading-tight mb-6">
+            31 years serving {state}.
+          </h3>
+          <p class="font-sans text-brand-bg/80 leading-relaxed mb-6 text-sm">
+            {aboutDesc}
+          </p>
+          <ul class="space-y-3 mb-10">
+            {[
+              "Commercial & residential installations",
+              "New construction & renovation work",
+              "Tile, LVT/LVP, and carpet",
+              "31 years in business",
+              "3rd generation family-owned"
+            ].map(point => (
+              <li class="flex items-start gap-3 font-sans text-sm text-brand-bg/80">
+                <span class="text-brand-accent font-bold mt-0.5 flex-shrink-0">✓</span>
+                {point}
+              </li>
+            ))}
+          </ul>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="tel:9143483400" class="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-xs hover:bg-brand-accent/90 transition-colors">
+              <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+              Call 914-348-3400
+            </a>
+            <a href="/portfolio" class="inline-flex items-center justify-center px-7 py-3.5 border border-brand-bg/30 text-brand-bg font-sans font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-brand-blue transition-all duration-300">
+              View Our Work
+            </a>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-px bg-brand-bg/10">
+          <div class="bg-brand-blue/80 p-8 text-center">
+            <p class="font-serif text-5xl font-bold text-brand-accent mb-2">31</p>
+            <p class="font-sans text-xs uppercase tracking-widest text-brand-bg/60">Years in Business</p>
+          </div>
+          <div class="bg-brand-blue/80 p-8 text-center">
+            <p class="font-serif text-5xl font-bold text-brand-accent mb-2">3rd</p>
+            <p class="font-sans text-xs uppercase tracking-widest text-brand-bg/60">Generation</p>
+          </div>
+          <div class="col-span-2 bg-brand-blue/80 p-8 text-center">
+            <p class="font-serif text-5xl font-bold text-brand-accent mb-2">4</p>
+            <p class="font-sans text-xs uppercase tracking-widest text-brand-bg/60">States Served</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Schema.org JSON-LD */}
+  {/* Schema.org JSON-LD ServiceAreaBusiness Context */}
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ServiceAreaBusiness",
+    "name": "Continental Tile Contractors",
+    "description": `Tile, LVT/LVP, and carpet installation in ${city}, ${state}. Commercial and residential flooring.`,
+    "url": `https://continentaltileinc.com/areas/${location.slug}`,
+    "telephone": "+19143483400",
+    "email": "Info@continentaltileinc.com",
+    "foundingDate": "1995",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Continental Tile Contractors",
+      "url": "https://continentaltileinc.com"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "195 S Broadway",
+      "addressLocality": "Tarrytown",
+      "addressRegion": "NY",
+      "postalCode": "10591",
+      "addressCountry": "US"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": city,
+      "containedInPlace": { "@type": "State", "name": state }
+    }
+  })} />
+
+</BaseLayout>

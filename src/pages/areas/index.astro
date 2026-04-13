@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { locations } from '../../data/locations';
+
+// Group by region, preserve insertion order (geographic)
+const regionMap = new Map<string, typeof locations>();
+for (const loc of locations) {
+  if (!regionMap.has(loc.region)) regionMap.set(loc.region, []);
+  regionMap.get(loc.region)!.push(loc);
+}
+
+// Group regions by state abbreviation
+const stateGroups: Record<string, { region: string; locs: typeof locations }[]> = {};
+for (const [region, locs] of regionMap.entries()) {
+  const abbr = locs[0].stateAbbr;
+  if (!stateGroups[abbr]) stateGroups[abbr] = [];
+  stateGroups[abbr].push({ region, locs });
+}
+
+const stateOrder = ['NY', 'CT', 'NJ', 'ME'];
+const stateNames: Record<string, string> = {
+  NY: 'New York',
+  CT: 'Connecticut',
+  NJ: 'New Jersey',
+  ME: 'Maine',
+};
+
+// Strip state abbreviation from region display name
+function regionLabel(region: string, abbr: string) {
+  return region.replace(new RegExp(`,\\s*${abbr}$`), '').trim();
+}
+---
+
+<BaseLayout
+  title="Areas Served - NJ, NY, CT & ME"
+  description="Continental Tile Contractors installs tile, LVT/LVP, and carpet across New York, New Jersey, Connecticut, and Maine. Commercial and residential flooring. See all locations."
+>
+  {/* Header */}
+  <section class="py-20 bg-brand-blue">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl">
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-brand-bg mb-5">Areas Served</h1>
+        <p class="font-sans text-brand-bg/70 text-base leading-relaxed max-w-xl">
+          Based in Tarrytown, NY, we install tile, LVT/LVP, and carpet for commercial and residential clients across the Tri-State area and Maine. Select your area below.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* Location directory */}
+  <section class="py-20 bg-brand-bg">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="space-y-12">
+        {stateOrder.map((abbr) => {
+          const groups = stateGroups[abbr];
+          if (!groups) return null;
+          return (
+            <div>
+              {/* State heading */}
+              <h2 class="font-serif text-2xl font-bold text-brand-blue mb-6 pb-3 border-b-2 border-brand-blue">
+                {stateNames[abbr]}
+              </h2>
+
+              {/* Accordion sections per county/region */}
+              <div class="divide-y divide-gray-200 border border-gray-200">
+                {groups.map(({ region, locs }) => (
+                  <details class="group">
+                    <summary class="flex items-center justify-between px-5 py-4 cursor-pointer list-none select-none hover:bg-brand-bg/80 transition-colors">
+                      <div class="flex items-center gap-3">
+                        <span class="font-sans text-sm font-bold text-brand-blue">{regionLabel(region, abbr)}</span>
+                        <span class="font-sans text-xs text-gray-400">{locs.length} {locs.length === 1 ? 'location' : 'towns'}</span>
+                      </div>
+                      <svg
+                        class="w-4 h-4 text-brand-accent transition-transform duration-200 group-open:rotate-180 flex-shrink-0"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </summary>
+                    <div class="px-5 pb-5 pt-2">
+                      <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-2">
+                        {locs.map(loc => (
+                          <li>
+                            <a
+                              href={`/areas/${loc.slug}`}
+                              class="font-sans text-sm text-gray-600 hover:text-brand-accent transition-colors leading-relaxed block py-0.5"
+                            >
+                              {loc.city}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Don't see your town */}
+      <div class="mt-16 pt-12 border-t border-gray-200 text-center">
+        <h2 class="font-serif text-2xl font-bold text-brand-blue mb-3">Don't see your town?</h2>
+        <p class="font-sans text-gray-500 text-sm mb-7 max-w-md mx-auto">
+          We take on projects outside our listed areas. Call us or send a message.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <a href="tel:9143483400" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-colors">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+            914-348-3400
+          </a>
+          <a href="/contact" class="inline-flex px-8 py-4 border border-brand-blue text-brand-blue font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-blue hover:text-brand-bg transition-all duration-300">
+            Send a Message
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Clean up default details/summary styling */
+  details > summary {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+  details > summary::marker {
+    display: none;
+  }
+</style>

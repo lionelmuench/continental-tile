@@ -1,87 +1,100 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-
-// Verified robust Unsplash URLs (Updated to a clean, open space without framing pillars)
-const heroImage = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2560&h=1440&q=80";
+import heroImg from '../assets/portfolio/100-east-putnam/305 Kitchen Living_final (1).jpg';
+import tileImg from '../assets/portfolio/25-n-lex/6697d6_e11a78ef64b643409796a6426bd7332b~mv2.png';
+import lvtImg from '../assets/portfolio/25-n-lex/6697d6_0538474eac1b4da7a2453f7c2e4d5ba1~mv2.png';
+import carpetImg from '../assets/portfolio/the-allen/247_North_Ave20.webp';
+import aboutImg from '../assets/portfolio/overland-crossings/OverlookBR.jpg';
 
 const services = [
   {
     title: "Tile Installation",
-    desc: "Exquisite porcelain, ceramic, and natural stone installations for commercial applications, ensuring durability and timeless elegance.",
+    desc: "Porcelain, ceramic, and natural stone for commercial lobbies, residential bathrooms, kitchens, and everything in between. Built to last.",
     href: "/services#tile",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&h=600&q=80"
+    img: tileImg
   },
   {
-    title: "Vinyl Flooring",
-    desc: "Premium luxury vinyl tile (LVT) and plank installations, combining robust commercial resilience with high-end aesthetic appeal.",
+    title: "LVT / LVP Flooring",
+    desc: "Luxury vinyl tile and plank that holds up in high-traffic commercial spaces and looks great in residential renovations. Moisture-resistant and low-maintenance.",
     href: "/services#vinyl",
-    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=800&h=600&q=80"
+    img: lvtImg
   },
   {
-    title: "Carpet Laying",
-    desc: "Precision commercial broadloom and carpet tile systems installed to withstand high traffic while maintaining supreme comfort.",
+    title: "Carpet Installation",
+    desc: "Commercial broadloom and modular carpet tile installed with precision. From corporate offices to residential spaces. Comfortable and durable.",
     href: "/services#carpet",
-    img: "https://abfloors.com/wp-content/uploads/2015/01/commercial-flooring-Orlando.jpg"
+    img: carpetImg
   }
 ];
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="Continental Tile Contractors — Tile, LVT/LVP & Carpet"
+  description="Continental Tile Contractors — 31 years of flooring expertise. Commercial and residential tile, LVT/LVP, and carpet installation across NJ, NY, CT, and ME."
+>
+
   {/* HERO SECTION */}
-  <section class="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+  <section class="relative h-[80vh] min-h-[580px] flex items-center justify-start overflow-hidden">
     {/* Background Image & Overlay */}
     <div class="absolute inset-0 z-0 bg-brand-blue">
-      <Image src={heroImage} alt="Luxury commercial tile installation" width={2560} height={1440} format="webp" class="w-full h-full object-cover object-center" />
-      <div class="absolute inset-0 bg-brand-blue/40"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-brand-blue via-transparent to-transparent opacity-80"></div>
+      <Image src={heroImg} alt="Professional tile installation in a commercial space" width={2560} format="webp" class="w-full h-full object-cover object-center" loading="eager" />
+      <div class="absolute inset-0 bg-brand-blue/55"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-blue/80 via-brand-blue/30 to-transparent"></div>
     </div>
 
-    {/* Hero Content */}
-    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-      <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-brand-bg leading-[1.1] mb-8">
-        Excellence in Tile, Vinyl,<br class="hidden md:block"/> and Carpet Installations
-      </h1>
-      <p class="font-sans text-lg sm:text-xl text-brand-bg/90 max-w-3xl mx-auto leading-relaxed mb-12">
-        Elevate your space with our expert craftsmanship and premium materials. Focusing on new commercial construction and high-end renovations.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-        <a href="/services" class="w-full sm:w-auto px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-1">
-          Explore Services
-        </a>
-        <a href="/contact" class="w-full sm:w-auto px-8 py-4 border border-brand-bg/30 text-brand-bg font-sans font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-brand-blue transition-all duration-300">
-          Book Now
-        </a>
+    {/* Hero Content — left-aligned */}
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-8">
+      <div class="max-w-2xl">
+        <p class="font-sans text-xs font-bold uppercase tracking-[0.25em] text-brand-accent mb-5">Est. 1995 &mdash; Third-Generation Family Business</p>
+        <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-brand-bg leading-[1.1] mb-6">
+          Commercial &amp; Residential Flooring Done Right
+        </h1>
+        <p class="font-sans text-base sm:text-lg text-brand-bg/85 max-w-xl leading-relaxed mb-10">
+          Tile, LVT/LVP, and carpet installation for new construction and renovations. Serving NJ, NY, CT, and ME for over 31 years.
+        </p>
+        <div class="flex flex-col sm:flex-row items-start gap-4">
+          <a href="/services" class="inline-flex px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-all duration-300 shadow-lg">
+            View Our Services
+          </a>
+          <a href="tel:9143483400" class="inline-flex items-center gap-2 px-8 py-4 border border-brand-bg/40 text-brand-bg font-sans font-semibold text-sm hover:bg-white hover:text-brand-blue transition-all duration-300">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+            914-348-3400
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  {/* TRUST BAR */}
-  <div class="bg-brand-accent py-8 relative z-20 shadow-xl">
+  {/* TRUST BAR — verifiable claims only */}
+  <div class="bg-brand-accent py-6 relative z-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row justify-around items-center gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
+      <div class="flex flex-col md:flex-row justify-around items-center gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
         <div class="py-2 md:w-1/3">
-          <p class="font-serif italic text-white text-lg lg:text-xl">3rd Generation Family-Owned</p>
+          <p class="font-serif font-bold text-white text-lg">3rd Generation Family Business</p>
+          <p class="font-sans text-white/75 text-xs uppercase tracking-widest mt-1">Owned &amp; Operated Since 1995</p>
         </div>
         <div class="py-2 md:w-1/3">
-          <p class="font-serif italic text-white text-lg lg:text-xl">Decades of Industry Expertise</p>
+          <p class="font-serif font-bold text-white text-lg">31 Years in Business</p>
+          <p class="font-sans text-white/75 text-xs uppercase tracking-widest mt-1">Commercial &amp; Residential</p>
         </div>
         <div class="py-2 md:w-1/3">
-          <p class="font-serif italic text-white text-lg lg:text-xl">Quality Craftsmanship Guaranteed</p>
+          <p class="font-serif font-bold text-white text-lg">NJ · NY · CT · ME</p>
+          <p class="font-sans text-white/75 text-xs uppercase tracking-widest mt-1">Licensed &amp; Insured</p>
         </div>
       </div>
     </div>
   </div>
 
   {/* SERVICES TEASER SECTION */}
-  <section class="py-24 sm:py-32 bg-brand-bg">
+  <section class="py-20 sm:py-28 bg-brand-bg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-brand-accent/20 pb-8">
+      <div class="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-brand-accent/20 pb-8">
         <div class="max-w-2xl">
-          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-sm mb-4">Our Expertise</h2>
-          <h3 class="font-serif text-4xl sm:text-5xl font-bold text-brand-blue tracking-tight">Exceptional services in all types of flooring.</h3>
+          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-xs mb-3">What We Do</h2>
+          <h3 class="font-serif text-3xl sm:text-4xl font-bold text-brand-blue">Flooring for every setting.</h3>
         </div>
-        <a href="/services" class="font-sans font-bold text-sm tracking-widest uppercase text-brand-blue hover:text-brand-accent transition-colors flex items-center group">
+        <a href="/services" class="font-sans font-bold text-xs tracking-widest uppercase text-brand-blue hover:text-brand-accent transition-colors flex items-center group flex-shrink-0">
           All Services
           <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -89,18 +102,20 @@ const services = [
         </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
         {services.map((service) => (
-          <a href={service.href} class="group block border border-transparent hover:border-brand-accent/20 transition-all duration-500 bg-white p-6 shadow-sm hover:shadow-xl">
-            <div class="aspect-w-16 aspect-h-12 overflow-hidden mb-8 bg-gray-100">
-              <Image src={service.img} alt={service.title} width={800} height={600} format="webp" class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+          <a href={service.href} class="group block hover:shadow-xl transition-all duration-500 bg-white">
+            <div class="overflow-hidden bg-gray-100">
+              <Image src={service.img} alt={service.title} width={800} height={600} format="webp" class="w-full h-56 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" />
             </div>
-            <h4 class="font-serif text-2xl font-bold text-brand-blue mb-4">{service.title}</h4>
-            <p class="font-sans text-gray-600 leading-relaxed group-hover:text-brand-blue transition-colors duration-300">
-              {service.desc}
-            </p>
-            <div class="mt-6 font-sans font-bold text-xs uppercase tracking-widest text-brand-accent group-hover:text-brand-blue transition-colors">
-              Discover More <span class="ml-1">→</span>
+            <div class="p-6">
+              <h4 class="font-serif text-xl font-bold text-brand-blue mb-3">{service.title}</h4>
+              <p class="font-sans text-gray-600 text-sm leading-relaxed">
+                {service.desc}
+              </p>
+              <div class="mt-5 font-sans font-bold text-xs uppercase tracking-widest text-brand-accent group-hover:text-brand-blue transition-colors">
+                Learn More <span class="ml-1">→</span>
+              </div>
             </div>
           </a>
         ))}
@@ -108,65 +123,90 @@ const services = [
     </div>
   </section>
 
-  {/* VALUES / ABOUT TEASER */}
-  <section class="py-24 bg-brand-blue text-brand-bg relative overflow-hidden">
-    <div class="absolute inset-0 opacity-5 mix-blend-overlay">
-      <svg class="absolute w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        <div>
-          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-sm mb-6">Our Story & Vision</h2>
-          <h3 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-bg leading-tight mb-8">
-            Decades of trust, built on quality craftsmanship.
+  {/* ABOUT TEASER */}
+  <section class="py-20 sm:py-28 bg-brand-blue text-brand-bg border-t border-brand-bg/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div class="lg:col-span-7">
+          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-xs mb-5">About Us</h2>
+          <h3 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-bg leading-tight mb-8">
+            Three generations. One standard of work.
           </h3>
-          <p class="font-sans text-lg text-brand-bg/80 leading-relaxed mb-8">
-            As a third-generation family-owned and operated business, we have extensive expertise and deep industry relationships that allow us to navigate complex projects with relative ease.
-          </p>
-          <ul class="space-y-6 mb-12">
-            <li class="flex items-start">
-              <span class="text-brand-accent mr-4 text-xl">✓</span>
-              <div>
-                <strong class="font-serif text-xl block mb-1">Quality Craftsmanship</strong>
-                <span class="font-sans text-brand-bg/70 block">Attention to detail and customer satisfaction in every project.</span>
-              </div>
-            </li>
-            <li class="flex items-start">
-              <span class="text-brand-accent mr-4 text-xl">✓</span>
-              <div>
-                <strong class="font-serif text-xl block mb-1">Customer Satisfaction</strong>
-                <span class="font-sans text-brand-bg/70 block">Creating lasting relationships by delivering exceptional service.</span>
-              </div>
-            </li>
-            <li class="flex items-start">
-              <span class="text-brand-accent mr-4 text-xl">✓</span>
-              <div>
-                <strong class="font-serif text-xl block mb-1">Innovative Design</strong>
-                <span class="font-sans text-brand-bg/70 block">Cutting-edge solutions setting us apart in the flooring industry.</span>
-              </div>
-            </li>
-          </ul>
-          <a href="/about" class="inline-flex px-8 py-4 bg-transparent border-2 border-brand-accent text-brand-accent font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent hover:text-white transition-all duration-300">
+          <div class="prose prose-lg prose-invert font-sans text-brand-bg/80 leading-relaxed mb-10">
+            <p>
+              Continental Tile Contractors has been installing flooring in Westchester, Putnam, and beyond since 1995. As a third-generation family business, we've built long-term relationships with general contractors, property managers, developers, and homeowners across the region.
+            </p>
+            <p>
+              We work on new construction, gut renovations, and commercial fit-outs. If it goes on a floor, we install it right.
+            </p>
+          </div>
+
+          <a href="/about" class="inline-flex px-8 py-4 bg-transparent border border-brand-accent/50 text-brand-accent font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent hover:text-white hover:border-brand-accent transition-all duration-300">
             Read Our Story
           </a>
         </div>
-        <div class="relative">
-          <div class="aspect-w-4 aspect-h-5 lg:aspect-h-6">
-            <Image src="https://media.istockphoto.com/id/1158040145/photo/ceramic-tiles-tiler-placing-ceramic-wall-tile-in-position-over-adhesive-with-lash-tile.jpg?s=612x612&w=0&k=20&c=4JAqt5_sOFd6kCBaOw5edpiu-_p_d5R5dPAUAZA7vRM=" alt="Tile Craftsman at work" width={1200} height={1500} format="webp" class="object-cover w-full h-[600px] shadow-2xl" />
-          </div>
-          <div class="absolute -bottom-8 -left-8 bg-brand-bg p-8 shadow-xl max-w-xs hidden sm:block">
-            <p class="font-serif text-3xl font-bold text-brand-blue mb-2">100%</p>
-            <p class="font-sans text-sm font-semibold tracking-wide uppercase text-gray-500">Commitment to Excellence</p>
+        
+        <div class="lg:col-span-5 relative mt-8 lg:mt-0">
+          <div class="grid grid-cols-2 gap-px bg-brand-bg/10 border border-brand-bg/10">
+            <div class="bg-brand-blue p-8 sm:p-10 text-center flex flex-col justify-center">
+              <p class="font-serif text-5xl font-bold text-brand-accent mb-2">31</p>
+              <p class="font-sans text-xs uppercase tracking-widest text-brand-bg/60">Years in Business</p>
+            </div>
+            <div class="bg-brand-blue p-8 sm:p-10 text-center flex flex-col justify-center">
+              <p class="font-serif text-5xl font-bold text-brand-accent mb-2">3rd</p>
+              <p class="font-sans text-xs uppercase tracking-widest text-brand-bg/60">Generation</p>
+            </div>
+            <div class="col-span-2 bg-brand-blue p-8 sm:p-10 text-center flex flex-col justify-center">
+              <p class="font-serif text-5xl font-bold text-brand-accent mb-2">4</p>
+              <p class="font-sans text-xs uppercase tracking-widest text-brand-bg/60">States Served</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  {/* PORTFOLIO CTA STRIP */}
+  <section class="py-16 bg-brand-bg border-t border-brand-accent/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div>
+          <h2 class="font-sans uppercase tracking-[0.2em] font-bold text-brand-accent text-xs mb-3">Recent Work</h2>
+          <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-blue">See the finished product.</h3>
+          <p class="font-sans text-gray-500 mt-2 text-sm max-w-lg">Projects across Westchester County, Fairfield County, and beyond. From residential to large commercial builds.</p>
+        </div>
+        <a href="/portfolio" class="flex-shrink-0 inline-flex px-8 py-4 bg-brand-blue text-brand-bg font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent transition-all duration-300 shadow-md">
+          View Portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Schema.org LocalBusiness JSON-LD */}
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FlooringContractor",
+    "name": "Continental Tile Contractors",
+    "description": "Third-generation flooring contractors specializing in tile, LVT/LVP, and carpet installation for commercial and residential projects.",
+    "url": "https://continentaltileinc.com",
+    "telephone": "+19143483400",
+    "email": "Info@continentaltileinc.com",
+    "foundingDate": "1995",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "195 S Broadway",
+      "addressLocality": "Tarrytown",
+      "addressRegion": "NY",
+      "postalCode": "10591",
+      "addressCountry": "US"
+    },
+    "areaServed": [
+      {"@type": "State", "name": "New York"},
+      {"@type": "State", "name": "New Jersey"},
+      {"@type": "State", "name": "Connecticut"},
+      {"@type": "State", "name": "Maine"}
+    ],
+    "priceRange": "$$"
+  })} />
+
 </BaseLayout>

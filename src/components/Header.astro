@@ -1,46 +1,70 @@
 ---
 // src/components/Header.astro
 const navItems = [
-  { name: 'Home', href: '/' },
   { name: 'Services', href: '/services' },
-  { name: 'Our Story', href: '/about' },
+  { name: 'About Us', href: '/about' },
   { name: 'Portfolio', href: '/portfolio' },
 ];
+
+const currentPath = Astro.url.pathname;
 ---
 
-<header class="w-full border-b border-brand-accent/20 bg-brand-bg relative z-50">
+{/* Top contact bar */}
+<div class="bg-brand-blue py-2 hidden md:block">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-end items-center gap-6">
+    <a href="tel:9143483400" class="font-sans text-sm font-semibold text-brand-bg hover:text-brand-accent transition-colors flex items-center gap-2">
+      <svg class="w-4 h-4 text-brand-accent flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+      </svg>
+      914-348-3400
+    </a>
+    <a href="mailto:Info@continentaltileinc.com" class="font-sans text-sm text-brand-bg/70 hover:text-brand-accent transition-colors">
+      Info@continentaltileinc.com
+    </a>
+  </div>
+</div>
+
+<header class="w-full border-b border-brand-accent/20 bg-brand-bg sticky top-0 z-50 shadow-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-24">
+    <div class="flex justify-between items-center h-20">
       {/* Brand Logo */}
       <div class="flex-shrink-0 flex items-center">
-        <a href="/" class="flex flex-col">
-          <span class="font-serif text-2xl font-bold tracking-tight text-brand-blue leading-none">CONTINENTAL TILE</span>
-          <span class="font-sans text-xs tracking-[0.2em] text-brand-accent uppercase mt-1">Contractors</span>
+        <a href="/" class="flex items-center gap-3 group">
+          <img src="/favicon.png" alt="Continental Tile Logo" class="h-11 w-auto object-contain group-hover:opacity-90 transition-opacity" />
+          <div class="flex flex-col">
+            <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-brand-blue leading-none">CONTINENTAL TILE</span>
+            <span class="font-sans text-[10px] tracking-[0.2em] text-brand-accent uppercase mt-1.5">Contractors</span>
+          </div>
         </a>
       </div>
 
       {/* Desktop Navigation */}
-      <nav class="hidden md:flex space-x-8 items-center">
+      <nav class="hidden md:flex space-x-6 items-center">
         {navItems.map((item) => (
           <a
             href={item.href}
-            class="font-sans text-sm font-semibold tracking-wide text-brand-blue hover:text-brand-accent transition-colors duration-200 uppercase"
+            class={`font-sans text-sm font-semibold tracking-wide uppercase transition-colors duration-200 ${currentPath.startsWith(item.href) ? 'text-brand-accent' : 'text-brand-blue hover:text-brand-accent'}`}
           >
             {item.name}
           </a>
         ))}
         <a
           href="/contact"
-          class="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-semibold tracking-wide uppercase font-sans text-brand-bg bg-brand-blue hover:bg-brand-accent transition-all duration-300 shadow-sm"
+          class="inline-flex items-center justify-center gap-2 px-6 py-2.5 border border-transparent text-sm font-bold tracking-wide uppercase font-sans text-brand-bg bg-brand-blue hover:bg-brand-accent transition-all duration-300 shadow-sm"
+          aria-label="Contact Continental Tile Contractors"
         >
-          Contact Us
+          Contact
         </a>
       </nav>
 
-      {/* Mobile Menu Button - Minimal styling */}
-      <div class="md:hidden flex items-center">
-        <button type="button" class="text-brand-blue hover:text-brand-accent p-2" aria-expanded="false" id="mobile-menu-btn">
-          <span class="sr-only">Open main menu</span>
+      {/* Mobile Menu Button */}
+      <div class="md:hidden flex items-center gap-4">
+        <a href="tel:9143483400" class="text-brand-blue hover:text-brand-accent" aria-label="Call us">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+          </svg>
+        </a>
+        <button type="button" class="text-brand-blue hover:text-brand-accent p-2" aria-expanded="false" id="mobile-menu-btn" aria-label="Open main menu">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -49,7 +73,7 @@ const navItems = [
     </div>
   </div>
 
-  {/* Mobile Menu (Hidden by default) */}
+  {/* Mobile Menu */}
   <div class="hidden md:hidden bg-brand-bg border-t border-brand-accent/10 absolute w-full left-0 top-full shadow-lg" id="mobile-menu">
     <div class="px-4 pt-2 pb-6 space-y-1 sm:px-6">
       {navItems.map((item) => (
