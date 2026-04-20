@@ -11,7 +11,7 @@ interface Props {
   description?: string;
 }
 
-const { title = "Continental Tile Contractors", description = "Continental Tile Contractors — a third-generation flooring company serving NJ, NY, CT, and ME. Expert installation of tile, LVT/LVP, and carpet for commercial and residential projects." } = Astro.props;
+const { title = "Continental Tile Contractors", description = "Continental Tile Contractors - a third-generation flooring company serving NJ, NY, CT, and ME. Expert installation of tile, LVT/LVP, and carpet for commercial and residential projects." } = Astro.props;
 
 // For generating canonical URL
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://continentaltileinc.com');
@@ -27,7 +27,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://continen
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     <title>{title === "Continental Tile Contractors" ? title : `${title} | Continental Tile Contractors`}</title>
-    {/* Lora serif font — non-blocking preload */}
+    {/* Lora serif font - non-blocking preload */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" media="print" onload="this.media='all'" />

@@ -1,5 +1,5 @@
 // src/data/locations.ts
-// Continental Tile Contractors — Service Area Locations
+// Continental Tile Contractors - Service Area Locations
 // Add new towns by appending to the array.
 // Each entry generates an SEO page at /areas/[slug].
 
