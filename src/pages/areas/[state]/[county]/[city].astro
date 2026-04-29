@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { locations, type Location } from '../../../../data/locations';
+import tileImg from '../../../../assets/portfolio/25-n-lex/6697d6_e11a78ef64b643409796a6426bd7332b~mv2.png';
+import lvtImg from '../../../../assets/portfolio/25-n-lex/6697d6_0538474eac1b4da7a2453f7c2e4d5ba1~mv2.png';
+import carpetImg from '../../../../assets/portfolio/the-allen/247_North_Ave20.webp';
+
+export async function getStaticPaths() {
+  return locations.map((location) => ({
+    params: { 
+      state: location.stateSlug,
+      county: location.countySlug,
+      city: location.citySlug
+    },
+    props: { location },
+  }));
+}
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+const { city, state, stateAbbr, region } = location;
+
+const regionDisplay = region ? region.replace(new RegExp(`,\\s*${stateAbbr}$`), '').trim() : state;
+
+const pageTitle = `Tile & Flooring Contractors in ${city}, ${stateAbbr}`;
+const metaDescription = `Continental Tile Contractors installs tile, LVT/LVP, and carpet in ${city}, ${state}. Commercial and residential flooring. 31 years in business. Call 914-348-3400.`;
+
+// Content Spinning Hash Logic for services only
+let hash = 0;
+for (let i = 0; i < city.length; i++) {
+  hash = (hash << 5) - hash + city.charCodeAt(i);
+  hash |= 0; 
+}
+hash = Math.abs(hash);
+
+const vTile = Math.floor(hash / 3) % 3;
+const vLvt = Math.floor(hash / 9) % 3;
+const vCarpet = Math.floor(hash / 27) % 3;
+
+const services = [
+  {
+    title: "Tile Installation",
+    desc: [
+      `Porcelain, ceramic, and natural stone tile for commercial and residential projects in ${city}. Kitchens, bathrooms, lobbies, and more.`,
+      `From heavy commercial lobbies to custom residential bathrooms in ${city}. We deliver excellence in flooring every time.`,
+      `Expert tile installation for ${city} builds. We handle large format porcelain, ceramic walls, and natural stone floors with rigorous attention to detail.`
+    ][vTile],
+    href: "/services#tile",
+    img: tileImg
+  },
+  {
+    title: "LVT / LVP Flooring",
+    desc: [
+      `Luxury vinyl tile and plank. Moisture-resistant and durable. Perfect for high-traffic commercial spaces and ${city} residential homes alike.`,
+      `LVT and LVP floors offer unmatched durability. We install these resilient systems in corporate offices, retail environments, and ${city} households.`,
+      `Modern vinyl plank floors look great and handle heavy wear. Our crews install LVP throughout ${city} for multifamily developers and general contractors.`
+    ][vLvt],
+    href: "/services#vinyl",
+    img: lvtImg
+  },
+  {
+    title: "Carpet Installation",
+    desc: [
+      `Commercial broadloom and modular carpet tile for offices, hospitality, and residential spaces in ${city} and the surrounding area.`,
+      `Structured carpet installations spanning from corporate boardrooms to ${city} living spaces. Quiet, warm, and built for heavy foot traffic.`,
+      `We lay modular carpet tiles and traditional broadloom across ${regionDisplay}. Perfect for anything from office buildings to apartments.`
+    ][vCarpet],
+    href: "/services#carpet",
+    img: carpetImg
+  }
+];
+---
+
+<BaseLayout title={pageTitle} description={metaDescription}>
+
+  {/* Utilitarian Location Hero */}
+  <section class="bg-brand-blue pt-32 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="font-sans text-xs font-bold uppercase tracking-[0.25em] text-brand-accent mb-4">
+        {regionDisplay} Service Area
+      </p>
+      <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-bg leading-tight mb-6 max-w-4xl mx-auto">
+        Tile & Flooring Installation in {city}, {stateAbbr}
+      </h1>
+      <p class="font-sans text-base text-brand-bg/85 max-w-2xl mx-auto leading-relaxed mb-8">
+        We provide professional tile, LVT/LVP, and broadloom carpet installation for commercial and residential projects directly in {city}. 
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="tel:9143483400" class="inline-flex items-center gap-2 px-8 py-4 bg-brand-accent text-white font-sans font-bold uppercase tracking-widest text-sm hover:bg-brand-accent/90 transition-all duration-300 shadow-lg">
+          <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+          Call 914-348-3400
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Services in this area */}
+  <section class="py-16 bg-brand-bg min-h-[50vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12 border-b border-brand-accent/20 pb-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-blue">Flooring Services in {city}</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+        {services.map((service) => (
+          <a href={service.href} class="group block hover:shadow-xl transition-all duration-500 bg-white">
+            <div class="overflow-hidden bg-gray-100">
+              <Image src={service.img} alt={service.title} width={800} height={600} format="webp" class="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-serif text-xl font-bold text-brand-blue mb-3">{service.title}</h3>
+              <p class="font-sans text-gray-600 text-sm leading-relaxed">{service.desc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Schema.org JSON-LD ServiceAreaBusiness Context */}
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ServiceAreaBusiness",
+    "name": "Continental Tile Contractors",
+    "description": `Tile, LVT/LVP, and carpet installation in ${city}, ${state}. Commercial and residential flooring.`,
+    "url": `https://continentaltileinc.com/areas/${location.stateSlug}/${location.countySlug}/${location.citySlug}`,
+    "telephone": "+19143483400",
+    "email": "Info@continentaltileinc.com",
+    "foundingDate": "1995",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Continental Tile Contractors",
+      "url": "https://continentaltileinc.com"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "195 S Broadway",
+      "addressLocality": "Tarrytown",
+      "addressRegion": "NY",
+      "postalCode": "10591",
+      "addressCountry": "US"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": city,
+      "containedInPlace": { "@type": "State", "name": state }
+    }
+  })} />
+
+</BaseLayout>

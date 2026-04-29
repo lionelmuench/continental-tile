@@ -82,7 +82,7 @@ function regionLabel(region: string, abbr: string) {
                         {locs.map(loc => (
                           <li>
                             <a
-                              href={`/areas/${loc.slug}`}
+                              href={`/areas/${loc.stateSlug}/${loc.countySlug}/${loc.citySlug}`}
                               class="font-sans text-sm text-gray-600 hover:text-brand-accent transition-colors leading-relaxed block py-0.5"
                             >
                               {loc.city}

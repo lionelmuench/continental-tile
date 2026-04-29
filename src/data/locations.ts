@@ -9,6 +9,9 @@ export interface Location {
   state: string;
   stateAbbr: string;
   region: string; // For grouping on the index page
+  stateSlug: string;
+  countySlug: string;
+  citySlug: string;
 }
 
 function loc(city: string, stateAbbr: string, region: string): Location {
@@ -20,7 +23,20 @@ function loc(city: string, stateAbbr: string, region: string): Location {
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '')
     + '-' + stateAbbr.toLowerCase();
-  return { slug, city, state, stateAbbr, region };
+    
+  const stateSlug = stateAbbr.toLowerCase();
+  
+  // Clean region to get county slug (e.g. "Westchester County, NY" -> "westchester-county")
+  const countySlug = region.toLowerCase()
+    .replace(new RegExp(`,?\\s*${stateAbbr.toLowerCase()}$`), '')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+
+  const citySlug = city.toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+
+  return { slug, city, state, stateAbbr, region, stateSlug, countySlug, citySlug };
 }
 
 export const locations: Location[] = [
